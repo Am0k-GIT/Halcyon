@@ -43,12 +43,12 @@ platform                    = ststm32
 board                       = marlin_STM32F401RC
 board_build.offset          = 0x0000
 build_flags                 = ${stm32_variant.build_flags} ${stm32f4_I2C1.build_flags}
-                                -Os -DHAL_PCD_MODULE_ENABLED
-                               -DHAL_UART_MODULE_ENABLED
-                                -DPIN_WIRE_SCL=PB6 -DPIN_WIRE_SDA=PB7
-								-DSERIAL_RX_BUFFER_SIZE=1024 -DSERIAL_TX_BUFFER_SIZE=1024
-								-DTIMER_SERVO=TIM2
-								-DSTEP_TIMER_IRQ_PRIO=0
+                            -Os -DHAL_PCD_MODULE_ENABLED
+                            -DHAL_UART_MODULE_ENABLED
+                            -DPIN_WIRE_SCL=PB6 -DPIN_WIRE_SDA=PB7
+                            -DSERIAL_RX_BUFFER_SIZE=1024 -DSERIAL_TX_BUFFER_SIZE=1024
+                            -DTIMER_SERVO=TIM2
+                            -DSTEP_TIMER_IRQ_PRIO=0
 monitor_speed               = 115200
 
 [env:Halcyon_v1_dfu]
@@ -72,9 +72,9 @@ upload_protocol             = stlink
 температуры в рабочих диапазонах (от 0.23 до 0.67 градусов Цельсия на отсчет АЦП в диапазоне 200-300 градусов Цельсия). 
 Большинство существующих плат использует резисторы 4.7 кОм, что дает меньшую точность
 установки температуры при высоких температурах (от 0.71 до 3.33 градусов Цельсия на отсчет АЦП в диапазоне 200-300 градусов Цельсия
-для термистора `5 : 100kΩ  ATC Semitec 104GT-2/104NT-4-R025H42G`), но большую точность измерения температур, близких к комнатным. Для поддержки
-такого решения в файле `..\Marlin\Configuration.h` выберите один из термисторов с 1 кОм резистором верхнего плеча
-в секции `#define TEMP_SENSOR_0 ...`, либо добавьте свой термистор и калибровочную таблицу к нему.
+для терморезистора `5 : 100kΩ  ATC Semitec 104GT-2/104NT-4-R025H42G`), но большую точность измерения температур, близких к комнатным. Для поддержки
+такого решения в файле `..\Marlin\Configuration.h` выберите один из терморезисторов с 1 кОм резистором верхнего плеча
+в секции `#define TEMP_SENSOR_0 ...`, либо добавьте свой терморезистор и калибровочную таблицу к нему.
 Для этого необходимо выполнить следующие пункты:
 
 1.	Создаем header-файл с калибровкой терморезистора и именем `.. \Marlin\src\module\thermistor\thermistor_59.h`:
