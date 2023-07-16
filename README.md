@@ -8,7 +8,7 @@
 
 <h1 align="center">Halcyon CNC board</h1>
 
-Проект открытой управляющей платы ЧПУ на основе МК STM32F401RCT6. Разработана для работы под управление прошивок Marlin и GRBL.
+Проект открытой управляющей платы ЧПУ на основе МК STM32F401RCT6. Разработана для работы под управлением прошивок Marlin и GRBL.
 
 ## Marlin 2.1.2.1
 
@@ -36,13 +36,13 @@
 
 ## Внешний вид.
 <p align="center">
-  <img src="images/board_top_ready.jpg" height="400"/>
-  <img src="images/board_bot_ready.jpg" height="400"/>
+  <img src="images/board_top_ready.jpg" height="350"/>
+  <img src="images/board_bot_ready.jpg" height="350"/>
 </p>
 
 ## Особенности.
 <p align="center">
-  <img src="images/review.png" height="600"/>
+  <img src="images/preview.png" height="600"/>
 </p>
 
 Плата построена на базе современного и дешевого 32-битного МК STM32F401RCT6.
@@ -52,7 +52,7 @@
 - Возможность подключения до 5 независимых осей. Реализовано управление драйверами ШД через UART. Для конфигурирования 
 работы драйверов в режиме Standalone или UART, а так же настройки микрошага, установите соответствующие перемычки.
 <p align="center">
-	<img src="images/drivers.png" height="600"/>
+	<img src="images/drivers.png" height="450"/>
 </p>
 
 - Питание нагревателя экструдера осуществляется напряжением первичного питания.
