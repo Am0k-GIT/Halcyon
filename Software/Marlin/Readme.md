@@ -43,12 +43,12 @@ platform                    = ststm32
 board                       = marlin_STM32F401RC
 board_build.offset          = 0x0000
 build_flags                 = ${stm32_variant.build_flags} ${stm32f4_I2C1.build_flags}
-                            -Os -DHAL_PCD_MODULE_ENABLED
-                            -DHAL_UART_MODULE_ENABLED
-                            -DPIN_WIRE_SCL=PB6 -DPIN_WIRE_SDA=PB7
-                            -DSERIAL_RX_BUFFER_SIZE=1024 -DSERIAL_TX_BUFFER_SIZE=1024
-                            -DTIMER_SERVO=TIM2
-                            -DSTEP_TIMER_IRQ_PRIO=0
+                                -Os -DHAL_PCD_MODULE_ENABLED
+                               -DHAL_UART_MODULE_ENABLED
+                                -DPIN_WIRE_SCL=PB6 -DPIN_WIRE_SDA=PB7
+								-DSERIAL_RX_BUFFER_SIZE=1024 -DSERIAL_TX_BUFFER_SIZE=1024
+								-DTIMER_SERVO=TIM2
+								-DSTEP_TIMER_IRQ_PRIO=0
 monitor_speed               = 115200
 
 [env:Halcyon_v1_dfu]
