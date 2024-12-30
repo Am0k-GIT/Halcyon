@@ -112,8 +112,7 @@
 #define HEATER_0_PIN       PA1
 #define HEATER_BED_PIN     PA0
 
-//#define FAN0_PIN           PA2
-#define FAN_PIN            PA2
+#define FAN0_PIN           PA2
 #define FAN1_PIN           PA3
 
 #ifdef E0_AUTO_FAN_PIN
@@ -195,7 +194,7 @@
    #define BTN_EN1                   EXP_1_03_PIN
    #define BTN_EN2                   EXP_1_05_PIN
   
-   #define LCD_PINS_ENABLE           EXP_1_08_PIN
+   #define LCD_PINS_EN               EXP_1_08_PIN
    #define LCD_PINS_D4               EXP_1_06_PIN
 
 #elif IS_TFTGLCD_PANEL
@@ -216,7 +215,7 @@
     #define BTN_EN1                  EXP_2_08_PIN
     #define BTN_EN2                  EXP_2_06_PIN
 
-    #define LCD_PINS_ENABLE          EXP_1_08_PIN
+    #define LCD_PINS_EN              EXP_1_08_PIN
 
     #if ENABLED(FYSETC_MINI_12864)
 

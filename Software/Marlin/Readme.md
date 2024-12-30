@@ -1,17 +1,16 @@
 ## Конфигурирование Marlin для работы с платой Halcyon_v1
 
 Рекомендуется использовать модицикацию последней стабильной версии оригинальной прошивки.
-Готовая прошивка предлагается как пример, где можно подсмотреть настройки концевиков и прочего,
-она созданна для конкретной физической машины с ее особенностями. Для добавления поддержки платы
+Готовая прошивка предлагается как пример. Для добавления поддержки платы
 в оригинальную прошивку выполните следующие пункты:
 
-1.	Добавляем файл определения пинов: `..\ Marlin\src\pins\stm32f4\pins_HALCYON_V1`
+1.	Добавляем файл определения пинов: `..\ Marlin\src\pins\stm32f4\pins_HALCYON_V1.h`
 
 2.	Добавляем в файл `..\Marlin\src\pins\pins.h`:
 
 ```C
 #elif MB(HALCYON_V1)
-  #include "stm32f4/pins_HALCYON_V1.h"          // STM32F4                                env:Halcyon_v1 env:Halcyon_v1_dfu env:Halcyon_v1_stlink
+  #include "stm32f4/pins_HALCYON_V1.h"              // STM32F4                              env:Halcyon_v1 env:Halcyon_v1_dfu env:Halcyon_v1_stlink
 ```
 
 Важно: в закомментированной части строки есть информация о необходимом окружении, она парсится скриптом во время подготовки 
@@ -20,36 +19,34 @@
 3.	Добавляем в файл `..\Marlin\src\core\boards.h`:
 
 ```C
-#define BOARD_HALCYON_V1              5302  // HALCYON BOARD
+#define BOARD_HALCYON_V1              5245  // HALCYON BOARD
 ```
 
 Номер после названия платы может быть любым (при выходе свежих версий система нумерации периодически изменяется, а уже 
 существующие номера сдвигаются), главное чтобы он был уникальным.
 
-4.	В файлe `..\Marlin\Configuration.h` производим необходимые изменения и указываем нашу плату:
+4.	В файл `..\ini\stm32f4.ini` добавляем определение окружения:
 
 ```C
-#ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_HALCYON_V1
-#endif
-```
-
-5.	В файл `..\ini\stm32f4.ini` добавляем определение окружения:
-
-```C
+#
+# Halcyon_v1 board
+# STM32F401RCT6 ARM Cortex-M4
+#
 [env:Halcyon_v1]
 extends                     = stm32_variant
-platform                    = ststm32
+platform                    = ststm32@~14.1.0
+platform_packages           = framework-arduinoststm32@~4.20600.231001
+                              toolchain-gccarmnoneeabi@1.100301.220327
 board                       = marlin_STM32F401RC
 board_build.offset          = 0x0000
 build_flags                 = ${stm32_variant.build_flags} ${stm32f4_I2C1.build_flags}
-                                -Os -DHAL_PCD_MODULE_ENABLED
-                               -DHAL_UART_MODULE_ENABLED
-                                -DPIN_WIRE_SCL=PB6 -DPIN_WIRE_SDA=PB7
-								-DSERIAL_RX_BUFFER_SIZE=1024 -DSERIAL_TX_BUFFER_SIZE=1024
-								-DTIMER_SERVO=TIM2
-								-DSTEP_TIMER_IRQ_PRIO=0
-monitor_speed               = 115200
+                            -Os -DHAL_PCD_MODULE_ENABLED
+                            -DHAL_UART_MODULE_ENABLED
+                            -DPIN_WIRE_SCL=PB6 -DPIN_WIRE_SDA=PB7
+                            -DSERIAL_RX_BUFFER_SIZE=1024 -DSERIAL_TX_BUFFER_SIZE=1024
+                            -DTIMER_SERVO=TIM2
+                            -DSTEP_TIMER_IRQ_PRIO=0
+monitor_speed               = 250000
 
 [env:Halcyon_v1_dfu]
 extends                     = env:Halcyon_v1
@@ -58,6 +55,23 @@ upload_protocol             = dfu
 [env:Halcyon_v1_stlink]
 extends                     = env:Halcyon_v1
 upload_protocol             = stlink
+```
+
+5.	В файлe `..\Marlin\Configuration.h` производим необходимые изменения 
+
+- указываем нашу плату:
+```C
+#ifndef MOTHERBOARD
+  #define MOTHERBOARD BOARD_HALCYON_V1
+#endif
+```
+- устанавливаем номер порта для USB:
+```C
+#define SERIAL_PORT -1
+```
+- устанавливаем скорость обмена:
+```C
+#define BAUDRATE 250000
 ```
 
 6.	Прошиваем выбрав окружение `env:Halcyon_v1_dfu` для прошивки по USB (для этого необходимо перезагрузить плату 
