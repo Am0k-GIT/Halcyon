@@ -14,7 +14,7 @@
 
 Плата поддерживает и протестированна с прошивкой на базе Marlin 2.1.2.5. 
 В репозитории вы можете найти пример исходников модифицированной прошивки с уже добавленной поддержкой платы, 
-а так же [инструкцию](/Software/Marlin/Readme.md) по модицикации оригинальных исходников <a href="https://github.com/MarlinFirmware/Marlin">Marlin</a>. 
+а так же [инструкцию](/files/Marlin/Readme.md) по модицикации оригинальных исходников <a href="https://github.com/MarlinFirmware/Marlin">Marlin</a>. 
 Для компиляции использовался <a href="https://code.visualstudio.com">Visual Studio Code</a> с 
 установленным PlatformIO, перед сборкой выбираем окружение `env:Halcyon_v1_dfu` для прошивки по DFU, `env:Halcyon_v1_stlink`
 для прошивки с помощью ST-LINK.
