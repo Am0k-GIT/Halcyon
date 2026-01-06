@@ -10,7 +10,7 @@
 
 ```C
 #elif MB(HALCYON_V1)
-  #include "stm32f4/pins_HALCYON_V1.h"              // STM32F4                              env:Halcyon_v1 env:Halcyon_v1_dfu env:Halcyon_v1_stlink
+  #include "stm32f4/pins_HALCYON_V1.h"              // STM32F4                              env:Halcyon_v1_RC env:Halcyon_v1_RC_dfu env:Halcyon_v1_RC_stlink env:Halcyon_v1_RE env:Halcyon_v1_RE_dfu env:Halcyon_v1_RE_stlink
 ```
 
 Важно: в закомментированной части строки есть информация о необходимом окружении, она парсится скриптом во время подготовки 
@@ -31,16 +31,14 @@
 #
 # Halcyon_v1 board
 # STM32F401RCT6 ARM Cortex-M4
-# use BOOTLOADER.hex
+# use BOOTLOADER_HALCYON_V1_RC_SPI_SD.bin
 #
-[env:Halcyon_v1]
+[env:Halcyon_v1_RC]
 extends                     = stm32_variant
-platform                    = ststm32@~14.1.0
-platform_packages           = framework-arduinoststm32@~4.20600.231001
-                              toolchain-gccarmnoneeabi@1.100301.220327
-board                       = marlin_STM32F401RC
+platform                    = ststm32
+board                       = genericSTM32F401RC
 board_build.offset          = 0x8000
-board_upload.offset_address = 0x08000000
+board_upload.offset_address = 0x08008000
 build_flags                 = ${stm32_variant.build_flags} ${stm32f4_I2C1.build_flags}
                             -Os -DHAL_PCD_MODULE_ENABLED
                             -DHAL_UART_MODULE_ENABLED
@@ -50,12 +48,40 @@ build_flags                 = ${stm32_variant.build_flags} ${stm32f4_I2C1.build_
                             -DSTEP_TIMER_IRQ_PRIO=0
 monitor_speed               = 250000
 
-[env:Halcyon_v1_dfu]
-extends                     = env:Halcyon_v1
+[env:Halcyon_v1_RC_dfu]
+extends                     = env:Halcyon_v1_RC
 upload_protocol             = dfu
 
-[env:Halcyon_v1_stlink]
-extends                     = env:Halcyon_v1
+[env:Halcyon_v1_RC_stlink]
+extends                     = env:Halcyon_v1_RC
+upload_protocol             = stlink
+
+#
+# Halcyon_v1 board
+# STM32F401RET6 ARM Cortex-M4
+# use BOOTLOADER_HALCYON_V1_RE_SPI_SD.bin
+#
+[env:Halcyon_v1_RE]
+extends                     = stm32_variant
+platform                    = ststm32
+board                       = genericSTM32F401RE
+board_build.offset          = 0x8000
+board_upload.offset_address = 0x08008000
+build_flags                 = ${stm32_variant.build_flags} ${stm32f4_I2C1.build_flags}
+                            -Os -DHAL_PCD_MODULE_ENABLED
+                            -DHAL_UART_MODULE_ENABLED
+                            -DPIN_WIRE_SCL=PB6 -DPIN_WIRE_SDA=PB7
+                            -DSERIAL_RX_BUFFER_SIZE=1024 -DSERIAL_TX_BUFFER_SIZE=1024
+                            -DTIMER_SERVO=TIM2
+                            -DSTEP_TIMER_IRQ_PRIO=0
+monitor_speed               = 250000
+
+[env:Halcyon_v1_RE_dfu]
+extends                     = env:Halcyon_v1_RE
+upload_protocol             = dfu
+
+[env:Halcyon_v1_RE_stlink]
+extends                     = env:Halcyon_v1_RE
 upload_protocol             = stlink
 ```
 
@@ -76,13 +102,15 @@ upload_protocol             = stlink
 #define BAUDRATE 250000
 ```
 
-6.  Загрузите `BOOTLOADER_HALCYON_SPI_SD.hex`, если он еще не был загружен на вашу плату, по USB (для этого необходимо перезагрузить плату 
-кнопкой RST с зажатой кнопкой BOOT0), либо с помощью ST-LINK через специальный разъем программирования на плате.
+6.  Загрузите `BOOTLOADER_HALCYON_V1_RC_SPI_SD.bin` (для STM32F401RCT6 контроллера) / `BOOTLOADER_HALCYON_V1_RE_SPI_SD.bin` (для STM32F401RET6 контроллера), 
+если он еще не был загружен на вашу плату, по USB (для этого необходимо перезагрузить плату кнопкой RST с зажатой кнопкой BOOT0), 
+либо с помощью ST-LINK через специальный разъем программирования на плате.
 
-7.	Теперь вы можете обновлять прошивку вашей платы просто поместив скомлилированный файл прошивки `firmware.bin` на SD карту
+7.	Скомпилируйте прошивку используя соответствующее вашему микроконтроллеру окружение: `env:Halcyon_v1_RC` (`env:Halcyon_v1_RE`). 
+Теперь вы можете обновлять прошивку вашей платы просто поместив скомлилированный файл прошивки `firmware.bin` на SD карту
 и подав после этого питание на принтер. В течении ~30 секунд произойдет загрузка прошивки, в случае успеха файл на SD карте
-будет переименован в `old.bin`.Вы также можете прошить плату, выбрав окружение `env:Halcyon_v1_dfu` для прошивки по USB, 
-либо `env:Halcyon_v1_stlink` для прошивки с помощью ST-LINK через специальный разъем программирования на плате.
+будет переименован в `firmware.cur`.Вы также можете прошить плату, выбрав окружение `env:Halcyon_v1_RC_dfu` (`env:Halcyon_v1_RE_dfu`) для прошивки по USB, 
+либо `env:Halcyon_v1_RC_stlink` (`env:Halcyon_v1_RE_stlink`) для прошивки с помощью ST-LINK через специальный разъем программирования на плате.
 
 8. После прошивки не забываем сбросить настройки EEPROM командой `M502` и сохранить их вновь командой `M500`.
 
