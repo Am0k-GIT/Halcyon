@@ -36,6 +36,9 @@
 [env:Halcyon_v1_RC]
 extends                     = stm32_variant
 platform                    = ststm32
+platform_packages           = framework-arduinoststm32@~4.20600.231001
+                              framework-cmsis@~2.50700.210515
+                              toolchain-gccarmnoneeabi@1.100301.220327
 board                       = genericSTM32F401RC
 board_build.offset          = 0x8000
 board_upload.offset_address = 0x08008000
@@ -64,6 +67,9 @@ upload_protocol             = stlink
 [env:Halcyon_v1_RE]
 extends                     = stm32_variant
 platform                    = ststm32
+platform_packages           = framework-arduinoststm32@~4.20600.231001
+                              framework-cmsis@~2.50700.210515
+                              toolchain-gccarmnoneeabi@1.100301.220327
 board                       = genericSTM32F401RE
 board_build.offset          = 0x8000
 board_upload.offset_address = 0x08008000
